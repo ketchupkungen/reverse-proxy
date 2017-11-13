@@ -4,7 +4,7 @@ const httpProxy = require('http-proxy');
 const proxy = httpProxy();
 
 // Create a new reverse proxy
-const proxy = httpProxy();
+const proxy = httpProxy.createProxyServer();
 
 // Create a new webserver
 http.createServer((req,res)=> {
