@@ -47,11 +47,15 @@ function setResponseHeaders(req,res){
 	// there is a built in node function called res.writeHead
 	// that writes http response headers
 	// store that function in another property
-
 	res.oldWriteHead = res.writeHead;
 
+	// and the replace it with our funcuton
 	res.writeHead = funciton(statusCode, headers){
+
+		// set/replace our own headers
 		res.setHeader('x-powered-by', 'Bjurns super awesome server');
+
+		// call the original wirte head function as well
 		res.oldWriteHead(statusCode,headers);
 	}
 }
