@@ -24,5 +24,9 @@ http.createServer((req,res)=> {
 	}else {
 		res.statusCode = 500;
 		res.end('Can not find your app!');
-	};
+	}
+
+	if (port) {
+		proxy.web({target:'127.0.0.1:' + port});
+	}
 }).listen(80);
