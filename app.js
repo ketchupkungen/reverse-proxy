@@ -27,6 +27,6 @@ http.createServer((req,res)=> {
 	}
 
 	if (port) {
-		proxy.web({target:'127.0.0.1:' + port});
+		proxy.web(req,res,{target:'http://127.0.0.1:' + port});
 	}
 }).listen(80);
