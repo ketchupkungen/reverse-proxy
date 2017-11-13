@@ -8,11 +8,17 @@ const proxy = httpProxy.createProxyServer();
 // Handle proxy errors - thus not breaking the whole
 // reverse-proxy app if an app doesnt answer
 proxy.on('error',function(e){
-	console.log('Proxy error', Date.now(), e);
+	console.log('Proxy error, bud!', Date.now(), e);
 });
 
 // Create a new webserver
 http.createServer((req,res)=> {
+
+	// Set/replace response headers
+	setResponseHeaders(req,res);
+
+
+
 	// Can we read the incoming url?
 	let host = req.headers.host;
 	let hostParts = host.split('.');
@@ -36,3 +42,16 @@ http.createServer((req,res)=> {
 		proxy.web(req,res,{target:'http://127.0.0.1:' + port});
 	}
 }).listen(80);
+
+function setResponseHeaders(req,res){
+	// there is a built in node function called res.writeHead
+	// that writes http response headers
+	// store that function in another property
+
+	res.oldWriteHead = res.writeHead;
+
+	res.writeHead = funciton(statusCode, headers){
+		res.setHeader('x-powered-by', 'Bjurns super awesome server');
+		res.oldWriteHead(statusCode,headers);
+	}
+}
