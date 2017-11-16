@@ -34,7 +34,7 @@ http.createServer((req,res)=> {
 	else if(subDomain == '' || subDomain == 'www'){
 		port = 4001; //app: testapp
 	}
-	/*else if(subDomain == 'blogg') {
+	/*else if(subDomain == 'blog') {
 		port = 3001;
 	}*/
 	else if(subDomain == 'cooling') {
@@ -62,7 +62,7 @@ function setResponseHeaders(req,res){
 	res.oldWriteHead = res.writeHead;
 
 	// and the replace it with our funcuton
-	res.writeHead = funciton(statusCode, headers){
+	res.writeHead = function(statusCode, headers){
 
 		// set/replace our own headers
 		res.setHeader('x-powered-by', 'Bjurns super awesome server');
