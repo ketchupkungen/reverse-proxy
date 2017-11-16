@@ -5,6 +5,7 @@ const httpProxy = require('http-proxy');
 const tls = require('tls');
 const fs = require('fs');
 const path = require('path');
+const exec = require('child_process').exec;
 
 // Read all certs from certbot into an object
 let certs = readCerts("/etc/letsencrypt/live");
@@ -130,3 +131,23 @@ function readCerts(pathToCerts){
   return certs;
 
 }
+
+function renewCerts(){
+
+  exec('certbot renew',(error,stdOut,stdError)=>{
+    console.log('renewing certs',stdOut);
+    certs = readCerts('/etc/letsencrypt/live');
+  });
+
+}
+
+
+
+// Will lagg a bit, however it does not renew too often
+// It does not matter.
+
+// Renew certs when needed on on start
+renewCerts();
+
+// and then once every day
+setInterval(renewCerts, 1000 * 60 * 60 * 24);
