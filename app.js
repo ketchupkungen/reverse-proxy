@@ -22,10 +22,13 @@ proxy.on('error',function(e){
 https.createServer({
   // SNICallback let's us get the correct cert
   // depening on what the domain the user asks for
-  SNICallback: (domain, callback) => callback(null, certs[domain].secureContext),
+  SNICallback: (domain, callback) => callback(
+    certs[domain] ? null : new Error('No such cert'),
+    certs[domain] ? certs[domain].secureContext : null
+  ),
   // But we still have the server with a "default" cert
   key: certs['ketchupkungen.se'].key,
-  cert: certs['ketchupkunge.se'].cert
+  cert: certs['ketchupkungen.se'].cert
 },(req,res) => {
 
 	// Set/replace response headers
@@ -70,20 +73,22 @@ https.createServer({
 // For example shows this message instead of showing that
 // The app is powered by express
 function setResponseHeaders(req,res){
-	// there is a built in node function called res.writeHead
-	// that writes http response headers
-	// store that function in another property
-	res.oldWriteHead = res.writeHead;
 
-	// and the replace it with our funcuton
-	res.writeHead = function(statusCode, headers){
+  // there is a built in node function called res.writeHead
+  // that writes http response headers
+  // store that function in another property
+  res.oldWriteHead = res.writeHead;
 
-		// set/replace our own headers
-		res.setHeader('x-powered-by', 'Bjurns super awesome server');
+  // and then replace it with our function
+  res.writeHead = function(statusCode, headers){
 
-		// call the original wirte head function as well
-		res.oldWriteHead(statusCode,headers);
-	}
+    // set/replace our own headers
+    res.setHeader('x-powered-by', 'Bjurns super awesome server');
+
+    // call the original write head function as well
+    res.oldWriteHead(statusCode,headers);
+  }
+
 }
 
 
