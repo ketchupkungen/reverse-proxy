@@ -18,6 +18,28 @@ proxy.on('error',function(e){
 	console.log('Proxy error, bud!', Date.now(), e);
 });
 
+
+// Create a new unencrypted webserver
+// with the purpose to answer certbot challenges
+// and redirect all other traffic to https
+http.createServer((req,res)=>{
+
+  let urlParts = req.url.split('/');
+
+  if(urlParts[1] == '.well-known'){
+    // using certbot-helper on port 5000
+    proxy.web(req,res,{target:'http://127.0.0.1:5000'});
+  }
+  else {
+    // redirect to https
+    let url = 'https://' + req.headers.host + req.url;
+    res.writeHead(301, {'Location': url});
+    res.end();
+  }
+
+}).listen(80);
+
+
 // Create a new webserver
 https.createServer({
   // SNICallback let's us get the correct cert
@@ -45,10 +67,8 @@ https.createServer({
 	let urlParts = req.url.split('/');
 
 	let port;
-	if(urlParts[1] == '.well-known') {
-		port = 5000; //app: certbot-helper
-	}
-	else if(subDomain == '' || subDomain == 'www'){
+
+	if(subDomain == '' || subDomain == 'www'){
 		port = 4001; //app: testapp
 	}
 	else if(subDomain == 'blog') {
