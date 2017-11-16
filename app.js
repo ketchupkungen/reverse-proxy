@@ -20,13 +20,13 @@ proxy.on('error',function(e){
 
 // Create a new webserver
 https.createServer({
-	//SNICallbak lets us get the correct cert
-	// depending on what domain the user asks for
-	SNICallback: (domain,callback) => callback(null, certs[domain].secureContext),
-	// But we still have the server with a "default" cert
-	key: certs['ketchupkungen.se'].key,
-	cert: certs['ketchupkungen.se'].cert
-},(req,res)=> {
+  // SNICallback let's us get the correct cert
+  // depening on what the domain the user asks for
+  SNICallback: (domain, callback) => callback(null, certs[domain].secureContext),
+  // But we still have the server with a "default" cert
+  key: certs['ketchupkungen.se'].key,
+  cert: certs['ketchupkungen.se'].cert
+},(req,res) => {
 
 	// Set/replace response headers
 	setResponseHeaders(req,res);
