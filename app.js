@@ -34,11 +34,11 @@ http.createServer((req,res)=> {
 	else if(subDomain == '' || subDomain == 'www'){
 		port = 4001; //app: testapp
 	}
-	/*else if(subDomain == 'blog') {
-		port = 3001;
-	}*/
+	else if(subDomain == 'blog') {
+		port = 3001; //app: First-blog
+	}
 	else if(subDomain == 'cooling') {
-		port = 3000;
+		port = 3000; //app: example
 	}else {
 		// Error: Page not found
 		res.statusCode = 404;
