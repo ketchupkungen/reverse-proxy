@@ -8,7 +8,6 @@ const path = require('path');
 
 // Read all certs from certbot into an object
 let certs = readCerts("/etc/letsencrypt/live");
-console.log(certs);
 
 // Create a new reverse proxy
 const proxy = httpProxy.createProxyServer();
@@ -88,18 +87,21 @@ function setResponseHeaders(req,res){
 }
 
 
-function readCerts(pathToCerts) {
-	let certs = {},
-		domains = fs.readdirSync(pathToCerts);
+function readCerts(pathToCerts){
 
-	for(let domain of domains){
-		let domainName = domain.split('-0')[0];
-		certs[domainName] = {
-			key: fs.readFileSync(path.join(pathToCerts,domain,'privket.pem')),
-			cert: fs.readFileSync(path.join(pathToCerts,domain,'fullchain.pem'))
-		};
-		certs[domainName].secureContext = tls.createSecureContext(certs[domainName]);
-	}
+  let certs = {},
+      domains = fs.readdirSync(pathToCerts);
 
-	return certs;
+  // Read all ssl certs into memory from file
+  for(let domain of domains){
+    let domainName = domain.split('-0')[0];
+    certs[domainName] = {
+      key:  fs.readFileSync(path.join(pathToCerts,domain,'privkey.pem')),
+      cert: fs.readFileSync(path.join(pathToCerts,domain,'fullchain.pem'))
+    };
+    certs[domainName].secureContext = tls.createSecureContext(certs[domainName]);
+  }
+
+  return certs;
+
 }
