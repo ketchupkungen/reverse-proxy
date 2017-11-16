@@ -69,7 +69,16 @@ https.createServer({
 
 	let port;
 
-	if(subDomain == '' || subDomain == 'www'){
+	// Don't run our main site on both www and non-www.
+  	// Choose non-www domain
+  	if(subDomain == 'www'){
+    // redirect to domain without www
+    let url = 'https://' + domain + '.' + topDomain + req.url;
+    res.writeHead(301, {'Location': url});
+    res.end();
+
+  	}
+	else if(subDomain == ''){
 		port = 4001; //app: testapp
 	}
 	else if(subDomain == 'blog') {
@@ -80,7 +89,7 @@ https.createServer({
 	}else {
 		// Error: Page not found
 		res.statusCode = 404;
-		res.end('Ouch! Seems we can´t find your app :(');
+		res.end('Ouch! Seems I can´t find that url :(');
 	}
 
 	if (port) {
