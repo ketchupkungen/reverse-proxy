@@ -19,14 +19,7 @@ proxy.on('error',function(e){
 });
 
 // Create a new webserver
-https.createServer({
-  // SNICallback let's us get the correct cert
-  // depening on what the domain the user asks for
-  SNICallback: (domain, callback) => callback(null, certs[domain].secureContext),
-  // But we still have the server with a "default" cert
-  key: certs['ketchupkungen.se'].key,
-  cert: certs['ketchupkungen.se'].cert
-},(req,res) => {
+http.createServer((req,res) => {
 
 	// Set/replace response headers
 	setResponseHeaders(req,res);
@@ -63,7 +56,7 @@ https.createServer({
 		proxy.web(req,res,{target:'http://127.0.0.1:' + port});
 	}
 
-}).listen(443); // Listening on port 443
+}).listen(80); // Listening on port 443
 
 
 
