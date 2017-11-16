@@ -31,18 +31,33 @@ http.createServer((req,res)=> {
 	if(subDomain == '' || subDomain == 'www'){
 		port = 4001;
 	}
+	/*else if(subDomain == 'cooling') {
+		port = 3001;
+	}
+	else if(subDomain == 'cooling') {
+		port = 3000;
+	}*/
+	else if(subDomain == 'blogg') {
+		port = 3001;
+	}
 	else if(subDomain == 'cooling') {
 		port = 3000;
 	}else {
-		res.statusCode = 500;
-		res.end('Can not find your app!');
+		// Error: Page not found
+		res.statusCode = 404;
+		res.end('Ouch! Seems we can´t find your app :(');
 	}
 
 	if (port) {
 		proxy.web(req,res,{target:'http://127.0.0.1:' + port});
 	}
-}).listen(80);
 
+}).listen(80); // Listening on port 80
+
+
+
+// For example shows this message instead of showing that
+// The app is powered by express
 function setResponseHeaders(req,res){
 	// there is a built in node function called res.writeHead
 	// that writes http response headers
