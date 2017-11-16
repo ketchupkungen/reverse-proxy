@@ -37,9 +37,9 @@ http.createServer((req,res)=> {
 	else if(subDomain == 'cooling') {
 		port = 3000;
 	}*/
-	else if(subDomain == 'blogg') {
+	/*else if(subDomain == 'blogg') {
 		port = 3001;
-	}
+	}*/
 	else if(subDomain == 'cooling') {
 		port = 3000;
 	}else {
