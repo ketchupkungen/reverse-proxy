@@ -28,15 +28,12 @@ http.createServer((req,res)=> {
 	let urlParts = req.url.split('/');
 
 	let port;
-	if(subDomain == '' || subDomain == 'www'){
-		port = 4001;
+	if(urlParts[0] == '.well-known') {
+		port = 5000; //app: certbot-helper
 	}
-	/*else if(subDomain == 'cooling') {
-		port = 3001;
+	else if(subDomain == '' || subDomain == 'www'){
+		port = 4001; //app: testapp
 	}
-	else if(subDomain == 'cooling') {
-		port = 3000;
-	}*/
 	/*else if(subDomain == 'blogg') {
 		port = 3001;
 	}*/
