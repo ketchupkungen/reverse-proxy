@@ -102,9 +102,8 @@ https.createServer({
 }).listen(443); // Listening on port 443
 
 
-
 // For example shows this message instead of showing that
-// The app is powered by express
+// The app is powered by node express
 function setResponseHeaders(req,res){
 
   // there is a built in node function called res.writeHead
@@ -117,6 +116,14 @@ function setResponseHeaders(req,res){
 
     // set/replace our own headers
     res.setHeader('x-powered-by', 'Bjurns super awesome server');
+
+    // security related
+    res.setHeader('strict-transport-security','max-age=31536000; includeSubDomains; preload');
+	res.setHeader('x-frame-options','SAMEORIGIN');
+	res.setHeader('x-xss-protection', '1');
+	res.setHeader('x-content-type-options','nosniff');
+	// Lägg bara till unsafe-inline och unsafe-eval om ni behöver det
+	res.setHeader('content-security-policy',"default-src * 'unsafe-inline' 'unsafe-eval'");
 
     // call the original write head function as well
     res.oldWriteHead(statusCode,headers);
