@@ -87,9 +87,12 @@ https.createServer({
 	else if(subDomain == 'mdb') {
 		port = 4200; //app: mdb
 	}
-	else if(subDomain == 'cooling') {
+	else if(subDomain == 'mdb') {
+		port = 3000;
+	}
+	/*else if(subDomain == 'cooling') {
 		port = 3000; //app: example
-	}else {
+	}*/else {
 		// Error: Page not found
 		res.statusCode = 404;
 		res.end('Ouch! Seems I can´t find that url :(');
