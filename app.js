@@ -129,9 +129,7 @@ function setResponseHeaders(req,res){
     // call the original write head function as well
     res.oldWriteHead(statusCode,headers);
   }
-
 }
-
 
 function readCerts(pathToCerts){
 
@@ -158,7 +156,6 @@ function renewCerts(){
     console.log('renewing certs',stdOut);
     certs = readCerts('/etc/letsencrypt/live');
   });
-
 }
 
 
