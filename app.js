@@ -77,7 +77,7 @@ https.createServer({
     if(route == host){
       portToUse = port;
     }
-    else if (route.indexOf(host + url) == 0){
+    else if (url != '/' && route.indexOf(host + url) == 0){
       portToUse = port
     }
   }
