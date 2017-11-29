@@ -97,7 +97,7 @@ https.createServer({
 	else {
 		// Error: Page not found
 		res.statusCode = 404;
-		res.end('Ouch! Seems I can´t find that url :(');
+		res.end("Ouch! Seems I can't find that url :(");
 	}
 
 }).listen(443); // Listening on port 443
