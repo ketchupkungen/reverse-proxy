@@ -3,11 +3,14 @@
 	"www.ketchupkungen.se": {
 		"redirect": "ketchupkungen.se"
 	},
-	"cooling.ketchupkungen.se": 3002,
-	"ketchupkungen.se/cooling": 3002,
+	"cooling.ketchupkungen.se": 3001,
+	"ketchupkungen.se/cooling": 3001,
 
-	"blog.ketchupkungen.se": 3001,
-	"ketchupkungen.se/blog": 3001,
+	"blog.ketchupkungen.se": 3002,
+	"ketchupkungen.se/blog": 3002,
+
+	"rs.ketchupkungen.se": 3003,
+	"ketchupkungen.se/rs": 3003,
 
 	"mdb.ketchupkungen.se": 4200,
 	"mdb.ketchupkungen.se/rest": 3000,
