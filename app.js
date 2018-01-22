@@ -12,6 +12,7 @@ const routes = require('./routing.json');
 
 // Read all certs from certbot into an object
 let certs = readCerts("/etc/letsencrypt/live");
+console.log('certs: ',certs);
 
 // Create a new reverse proxy
 const proxy = httpProxy.createProxyServer();
@@ -27,21 +28,24 @@ proxy.on('error',function(e){
 // with the purpose to answer certbot challenges
 // and redirect all other traffic to https
 http.createServer((req,res)=>{
-
   let urlParts = req.url.split('/');
 
   if(urlParts[1] == '.well-known'){
     // using certbot-helper on port 5000
-    proxy.web(req,res,{target:'http://127.0.0.1:5000'});
-  }
-  else {
+    proxy.web(req,res,{
+      target:'http://127.0.0.1:5000',
+    });
+
+  } else {
     // redirect to https
     let url = 'https://' + req.headers.host + req.url;
-    res.writeHead(301, {'Location': url});
+    res.writeHead(301, {
+      'Location': url,
+    });
     res.end();
   }
 
-}).listen(85);
+}).listen(80);
 
 
 // Create a new webserver
@@ -57,10 +61,15 @@ https.createServer({
   cert: certs['ketchupkungen.se'].cert
 },(req,res) => {
 
+  // Block unecessary request mehtods. Add to this list
+  if(req.method == 'TRACE'){
+    res.status(403);
+    res.end();
+    return;
+  }
+
 	// Set/replace response headers
 	setResponseHeaders(req,res);
-
-
 
 	// Routing
   let host = req.headers.host,
@@ -85,6 +94,7 @@ https.createServer({
   // Redirects
   if(portToUse && portToUse.redirect){
     let url = 'https://' + portToUse.redirect;
+    console.log('url: ', url);
     res.writeHead(301, {'Location': url});
     res.end();
   }
@@ -160,7 +170,8 @@ function renewCerts(){
 
 
 
-// Will lagg a bit, however it does not renew too often
+// Will lagg a bit during renew process,
+//however it does not renew too often
 // It does not matter.
 
 // Renew certs when needed on on start
