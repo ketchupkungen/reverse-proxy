@@ -3,6 +3,9 @@
 	"www.ketchupkungen.se": {
 		"redirect": "ketchupkungen.se"
 	},
+	"hits.ketchupkungen.se": 3000,
+	"ketchupkungen.se/hits": 3000,
+
 	"cooling.ketchupkungen.se": 3001,
 	"ketchupkungen.se/cooling": 3001,
 
@@ -16,5 +19,8 @@
 	"ketchupkungen.se/phantom": 3004,
 
 	"mini-mdb.ketchupkungen.se": 3333,
-	"ketchupkungen.se/mini-mdb": 3333
+	"ketchupkungen.se/mini-mdb": 3333,
+
+	"wp-ex.ketchupkungen.se": 2525,
+	"ketchupkungen.se/wp-ex": 2525
 }
